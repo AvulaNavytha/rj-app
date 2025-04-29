@@ -275,7 +275,7 @@ function Cart() {
   const calculateTaxes = (subtotal: number) => {
     const sgst = subtotal * 0; // 2.5%
     const cgst = subtotal * 0; // 2.5%
-    const handleCharges = subtotal * 0.040
+    const handleCharges = subtotal * 0.060
     return { sgst, cgst, handleCharges };
   };
 
@@ -407,7 +407,7 @@ function Cart() {
                   <span>₹{calculateTaxes(calculateSubtotal()).cgst.toFixed(2)}</span>
                 </div> */}
                 <div className="flex justify-between text-gray-600">
-                  <span>Handling Charges (4%)</span>
+                  <span>Handling Charges</span>
                   <span>₹{calculateTaxes(calculateSubtotal()).handleCharges.toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3 mt-3">

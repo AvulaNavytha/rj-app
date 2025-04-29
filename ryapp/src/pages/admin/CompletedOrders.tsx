@@ -105,7 +105,7 @@ ${order.items
       ---------------------------------
       Sub Total            :₹ ${subtotal.toFixed(2)}
       ---------------------------------
-      Handling Charges(4%) : ₹${handlingCharges.toFixed(2)}
+      Handling Charges : ₹${handlingCharges.toFixed(2)}
       ---------------------------------
       Total Amount   : ₹${order.total.toFixed(2)}
       ---------------------------------
@@ -238,7 +238,7 @@ ${order.items
                     <span>₹{cgst.toFixed(2)}</span>
                   </div> */}
                   <div className="flex justify-between text-sm">
-                    <span>Handling Charges (4%)</span>
+                    <span>Handling Charges</span>
                     <span>₹{handlingCharges.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between font-medium pt-2 border-t">

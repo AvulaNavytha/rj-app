@@ -71,7 +71,7 @@ function Payment() {
     }, 0);
     const sgst = subtotal * 0;
     const cgst = subtotal * 0;
-    const handlingCharges = subtotal * 0.040;
+    const handlingCharges = subtotal * 0.060;
     return subtotal + sgst + cgst + handlingCharges;
   };
 
@@ -233,8 +233,8 @@ function Payment() {
         <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0) * 0.025).toFixed(2)}</span>
       </div> */}
       <div className="flex justify-between text-sm">
-        <span>Handling Charges (4%)</span>
-        <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0) * 0.04).toFixed(2)}</span>
+        <span>Handling Charges</span>
+        <span>₹{(cart.reduce((total, item) => total + item.price * item.quantity, 0) * 0.06).toFixed(2)}</span>
       </div>  
       <div className="flex justify-between font-semibold text-lg mt-4">
         <span>Total</span>
@@ -317,7 +317,7 @@ All prices displayed on our website are exclusive of applicable taxes and fees.
 The total bill will include the following charges:
 CGST (Central Goods and Services Tax): 2.5%
 SGST (State Goods and Services Tax): 2.5%
-Handling Fee: 4% (comprising Razorpay charges of 2% and additional platform handling charges of 2%).
+Handling Fee: 6% (comprising Razorpay charges of 2% and additional platform handling charges of 2%).
 <br /><br />
 <span style={{fontWeight:'500'}}>2. what do we do with your information </span><br />
 When you purchase something from our theatre, as part of the selling process, we collect the personal information you give us such as your name, phone number, seat number and screen to handle the order to reach you while delivering the item/items.

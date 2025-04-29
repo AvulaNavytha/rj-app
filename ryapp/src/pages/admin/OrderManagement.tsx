@@ -32,51 +32,7 @@ const isFirstRender = useRef(true);
   const [orders, setOrders] = useState([]);
   
   // const checkAndUpdatePayments = async () => {
-  //   try {
-  //     const ordersRef = collection(db, "transactions");
-  //     const snapshot = await getDocs(ordersRef);
 
-  //     for (const order of snapshot.docs) {
-  //       const data = order.data();
-
-  //       if (data.status === "pending") {
-  //         console.log(2);
-  //         const result = await checkPaymentStatus(data.orderId);
-  //         if (result.status === "captured") {
-  //           const itemsTotal = data.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  //         const gstAmount = itemsTotal * 0.04;  // 4% GST
-  //         const totalAmount = itemsTotal + gstAmount;
-
-  //           await updateDoc(doc(db, "transactions", order.id), {
-  //             status: "success",
-  //             verified: true,
-  //             updatedAt: new Date().toISOString(),
-  //           });
-
-  //           console.log(1);
-  //           console.log(result);
-  //           await addDoc(collection(db, "orders"), {
-  //             items: data.items,
-  //             total:totalAmount,
-  //             customerName: data.customerName,
-  //             customerPhone: data.customerPhone,
-  //             seatNumber: data.seatNumber,
-  //             status: "pending",
-  //             receipt: data.receipt,
-  //             screen: data.screen,
-  //             orderId: result.id,
-  //             createdAt: new Date().toISOString(),
-  //           });
-  //         } else {
-  //           console.log(`Payment still pending for order: ${data.orderId}`);
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating payments:", error);
-  //     toast.error("Failed to update payments");
-  //   }
-  // };
 
 //   const checkAndUpdatePayments = async () => {
 //     try {
@@ -158,7 +114,7 @@ const checkAndUpdatePayments = async () => {
                 const itemsTotal = data.items.reduce(
                     (sum, item) => sum + item.price * item.quantity, 0
                 );
-                const gstAmount = itemsTotal * 0.04;  // 4% GST
+                const gstAmount = itemsTotal * 0.06;  // 6% GST
                 const totalAmount = itemsTotal + gstAmount;
 
                 // Check if the order already exists in the 'orders' collection
@@ -273,7 +229,7 @@ ${order.items
       ---------------------------------
       Sub Total            :₹ ${subtotal.toFixed(2)}
       ---------------------------------
-      Handling Charges(4%) : ₹${handlingCharges.toFixed(2)}
+      Handling Charges : ₹${handlingCharges.toFixed(2)}
       ---------------------------------
       Total Amount   : ₹${order.total.toFixed(2)}
       ---------------------------------
@@ -375,7 +331,7 @@ ${order.items
                     <span>₹{cgst.toFixed(2)}</span>
                   </div> */}
                   <div className="flex justify-between text-sm">
-                    <span>Handling Charges (4%)</span>
+                    <span>Handling Charges </span>
                     <span>₹{handlingCharges.toFixed(2)}</span>
                   </div> 
                   <div className="flex justify-between font-medium pt-2 border-t ">
