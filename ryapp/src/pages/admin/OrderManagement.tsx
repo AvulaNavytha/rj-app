@@ -23,6 +23,7 @@ interface Order {
   status: string;
   createdAt: string;
   screen: string;
+  adding: string;
 }
 
 function OrderManagement() {
@@ -31,71 +32,6 @@ const isFirstRender = useRef(true);
   const { fetchPaymentDetails,checkPaymentStatus} = usePaymentStore();
   const [orders, setOrders] = useState([]);
   
-  // const checkAndUpdatePayments = async () => {
-
-
-//   const checkAndUpdatePayments = async () => {
-//     try {
-//         const ordersRef = collection(db, "transactions");
-//         const snapshot = await getDocs(ordersRef);
-
-//         for (const order of snapshot.docs) {
-//             const data = order.data();
-
-//             if (data.status === "pending") {
-//                 console.log(2);
-//                 const result = await checkPaymentStatus(data.orderId);
-//                 if (result.status === "captured") {
-//                     const itemsTotal = data.items.reduce(
-//                         (sum, item) => sum + item.price * item.quantity, 0
-//                     );
-//                     const gstAmount = itemsTotal * 0.04;  // 4% GST
-//                     const totalAmount = itemsTotal + gstAmount;
-
-//                     // Check if the order already exists in the 'orders' collection
-//                     const ordersQuery = query(
-//                         collection(db, "orders"),
-//                         where("orderId", "==", result.id)
-//                     );
-//                     console.log(ordersQuery)
-//                     const existingOrderSnapshot = await getDocs(ordersQuery);
-
-//                     if (existingOrderSnapshot.empty) {
-//                         // No existing order with this orderId, so proceed with adding it
-//                         await updateDoc(doc(db, "transactions", order.id), {
-//                             status: "success",
-//                             verified: true,
-//                             updatedAt: new Date().toISOString(),
-//                         });
-
-//                         console.log(1);
-//                         console.log(result);
-
-//                         await addDoc(collection(db, "orders"), {
-//                             items: data.items,
-//                             total: totalAmount,
-//                             customerName: data.customerName,
-//                             customerPhone: data.customerPhone,
-//                             seatNumber: data.seatNumber,
-//                             status: "pending",
-//                             receipt: data.receipt,
-//                             screen: data.screen,
-//                             orderId: result.id,  // Unique identifier for the order
-//                             createdAt: new Date().toISOString(),
-//                         });
-//                     } else {
-//                         console.log(`Order with orderId ${result.id} already exists, skipping insert.`);
-//                     }
-//                 } else {
-//                     console.log(`Payment still pending for order: ${data.orderId}`);
-//                 }
-//             }
-//         }
-//     } catch (error) {
-//         console.error("Error updating payments:", error);
-//         toast.error("Failed to update payments");
-//     }
-// };
 
 const checkAndUpdatePayments = async () => {
     try {
@@ -237,29 +173,7 @@ ${order.items
 `;
 
 
-  //   const printContent = `
-  //   Customer Copy
-  //   G3 CINEMA
-  // ------------------
-  //   Order Details:
-  //   Customer: ${order.customerName}
-  //   Seat: ${order.seatNumber}
-  //   Screen: ${order.screen}
-  //   Phone: ${order.customerPhone}
-    
-  //   Items:
-  //   ${order.items.map(item => `${item.name} x${item.quantity} - ₹${item.price * item.quantity}`).join('\n')}
-    
-    
-    
-  //   Total: ₹${order.total.toFixed(2)}
-  // `;
 
-    // Subtotal: ₹${subtotal.toFixed(2)}
-    //   SGST (2.5%): ₹${sgst.toFixed(2)}
-    //   CGST (2.5%): ₹${cgst.toFixed(2)}
-    //   Handling Charges (4%): ₹${handlingCharges.toFixed(2)}
-    
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(`<pre>${printContent}</pre>`);
@@ -305,6 +219,11 @@ ${order.items
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                   Pending
                 </span>
+                {order.adding === "manual" && (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      Manual
+                    </span>
+                  )}
               </div>
               
               <div className="border-t border-b py-4 my-4">

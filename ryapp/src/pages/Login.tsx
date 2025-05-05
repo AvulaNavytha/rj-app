@@ -19,6 +19,7 @@ function Login() {
     e.preventDefault();
   
     const isPhoneNumberValid = /^\d{10}$/.test(formData.phone);
+    const isSeatNumberValid = /^[A-Za-z]\d+$/.test(formData.seatNumber);
   
     if (!formData.name || !formData.phone || !formData.seatNumber || !formData.screen) {
       toast.error('Please fill in all fields');
@@ -27,6 +28,11 @@ function Login() {
   
     if (!isPhoneNumberValid) {
       toast.error('Invalid Phone Number');
+      return;
+    }
+  
+    if (!isSeatNumberValid) {
+      toast.error('Invalid Seat Number. Use 1 letter followed by number(s), e.g., A12');
       return;
     }
   

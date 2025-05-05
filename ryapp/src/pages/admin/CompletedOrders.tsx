@@ -23,6 +23,7 @@ interface Order {
   status: string;
   createdAt: string;
   completedAt: string;
+  adding:string,
   completionStatus: 'success' | 'failed';
 }
 
@@ -210,6 +211,11 @@ ${order.items
                 >
                   {order.completionStatus === 'success' ? 'Completed' : 'Not Done'}
                 </span>
+                {order.adding === 'manual' && (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      Manual
+                    </span>
+                  )}
               </div>
 
               <div className="border-t border-b py-4 my-4">

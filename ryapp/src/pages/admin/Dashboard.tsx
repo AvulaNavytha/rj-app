@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
-import { LayoutGrid, ClipboardList, CheckSquare, LogOut, Menu as MenuIcon } from 'lucide-react';
+import { LayoutGrid, ClipboardList, CheckSquare, LogOut, Menu as MenuIcon, PlusSquare } from 'lucide-react';
 import MenuManagement from './MenuManagement';
 import OrderManagement from './OrderManagement';
 import CompletedOrders from './CompletedOrders';
+import Manualadd from './Manualadd'
 import { useAuthStore } from '../../store/authStore';
 
 function Dashboard() {
@@ -34,6 +35,11 @@ function Dashboard() {
       path: '/admin/completed',
       icon: CheckSquare,
       text: 'Completed Orders'
+    },
+    {
+      path: '/admin/manual',
+      icon: PlusSquare,
+      text: 'Manual Adding'
     }
   ];
 
@@ -115,6 +121,7 @@ function Dashboard() {
           <Route path="menu" element={<MenuManagement />} />
           <Route path="orders" element={<OrderManagement />} />
           <Route path="completed" element={<CompletedOrders />} />
+          <Route path="manual" element={<Manualadd />} />
         </Routes>
       </div>
     </div>
