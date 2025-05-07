@@ -58,19 +58,6 @@ function Manualadd() {
   };
 
   const addtodb = async () => {
-    // const docRef = doc(db, 'orderId', 'UGm0lsQRJenIc2bAhRJX');
-    // console.log('docRef', docRef);
-    // const docalldata = await getDoc(docRef);
-    // const docdata = docalldata.data();
-    // const currentDate = new Date().toISOString().split('T')[0];
-    // const docDate = docdata?.date ? docdata.date.split('T')[0] : '';
-    // let newId = 1;
-
-    // if (docDate === currentDate && docdata?.id !== undefined) {
-    //   newId = docdata.id + 1;
-    // }
-
-    // await updateDoc(docRef, { id: newId, date: currentDate });
 
     await addDoc(collection(db, "orders"), {
       items: formData.items,
