@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import create from "zustand";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
@@ -26,7 +27,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
     try {
       set({ loading: true, error: null });
 
-      const response = await fetch(`https://api-xrduybgh2a-uc.a.run.app/fetch-payment/${paymentId}`);
+      const response = await fetch(`https://api-pcim2i7oxq-uc.a.run.app/fetch-payment/${paymentId}`);
 
       if (!response.ok) {
         throw new Error(
@@ -41,7 +42,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
       }
 
       return data.payment; // Modify this based on your data structure
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error fetching payment details:", error);
       set({ error: error.message });
       throw error;
@@ -55,7 +56,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
     try {
       set({ loading: true, error: null });
 
-      const response = await fetch(`https://api-xrduybgh2a-uc.a.run.app/check-payment/${orderId}`);
+      const response = await fetch(`https://api-pcim2i7oxq-uc.a.run.app/check-payment/${orderId}`);
 
       if (!response.ok) {
         throw new Error(
@@ -70,7 +71,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
       }
 
       return data.payment; // Modify this based on your data structure
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error checking payment status:", error);
       set({ error: error.message });
       throw error;
@@ -84,7 +85,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
       set({ loading: true, error: null });
 
       // Call the backend to create an order
-      const response = await fetch("https://api-xrduybgh2a-uc.a.run.app/create-order", {
+      const response = await fetch("https://api-pcim2i7oxq-uc.a.run.app/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
 
       const order = await response.json();
       return order;
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error creating order:", error);
       set({ error: error.message });
       throw error;
@@ -116,7 +117,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
       set({ loading: true, error: null });
 
       // Call the backend to verify the payment
-      const response = await fetch("https://api-xrduybgh2a-uc.a.run.app/verify-payment", {
+      const response = await fetch("https://api-pcim2i7oxq-uc.a.run.app/verify-payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,7 +131,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
 
       const result = await response.json();
       return result.valid;
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error verifying payment:", error);
       set({ error: error.message });
       return false;
@@ -153,7 +154,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
         verificationDetails,
         updatedAt: new Date().toISOString(),
       });
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error updating transaction:", error);
       set({ error: error.message });
       throw error;

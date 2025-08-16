@@ -1,25 +1,4 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-// const {onRequest} = require("firebase-functions/v2/https");
-// const logger = require("firebase-functions/logger");
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.app = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
-
 const functions = require("firebase-functions");
-
 const express = require("express");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
@@ -30,54 +9,76 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
-// Initialize Razorpay instance
+const allowedOrigins = ["http://localhost:5173", "https://rajyuvrajfood.co.in", "https://movie-fbd7f.web.app"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true,
+  })
+);
+
+// Handle preflight
+app.options("*", cors());
+
+// Razorpay instance
 const razorpay = new Razorpay({
   key_id: process.env.API_KEY,
   key_secret: process.env.SECRET_KEY,
 });
-// Create an order
+
+app.get("/show-keys", (req, res) => {
+  res.json({
+    key_id: process.env.API_KEY,
+    key_secret: process.env.SECRET_KEY,
+  });
+});
+
+
+// Create Order
 app.post("/create-order", async (req, res) => {
   try {
     const { amount, receipt } = req.body;
 
     const options = {
-      amount: amount, // Convert to paise
+      amount,
       currency: "INR",
       receipt,
     };
-    console.log(amount);
+
     const order = await razorpay.orders.create(options);
     res.status(200).json(order);
-    console.log("Order created success");
   } catch (error) {
     console.error("Error creating order:", error);
     res.status(500).json({ error: "Failed to create order" });
   }
 });
 
-// Verify payment
+app.get("/", (req, res) => {
+  res.send("API root working!", process.env.API_KEY, process.env.SECRET_KEY);
+});
+
+// Verify Payment
 app.post("/verify-payment", (req, res) => {
   try {
     const { orderId, paymentId, signature } = req.body;
-    console.log(orderId);
-    console.log(paymentId);
-    console.log(signature);
-    const text = `${orderId}|${paymentId}`;
     const expectedSignature = crypto
       .createHmac("sha256", process.env.SECRET_KEY)
-      .update(text)
+      .update(`${orderId}|${paymentId}`)
       .digest("hex");
 
     if (expectedSignature === signature) {
       res.status(200).json({ valid: true });
-      console.log("success");
-      console.log(expectedSignature);
     } else {
       res.status(400).json({ valid: false, error: "Invalid signature" });
-      console.log("failed");
-      console.log(expectedSignature);
     }
   } catch (error) {
     console.error("Error verifying payment:", error);
@@ -85,12 +86,11 @@ app.post("/verify-payment", (req, res) => {
   }
 });
 
-// const PORT = process.env.PORT || 3001;
-// app.listen(PORT, () => {
-//   console.log(`Server running on http://localhost:${PORT}`);
-// });
+
+// Expose APIs as Firebase functions
+exports.api = functions.https.onRequest(app);
+
+// Simple test endpoint
 exports.testRoute = functions.https.onRequest((req, res) => {
   res.send("Test route working!");
 });
-
-exports.api = functions.https.onRequest(app);

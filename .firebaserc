@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "rajyuvrajfood"
-  }
+    "default": "movie-fbd7f",
+    "staging": "movie-fbd7f"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import { useMenuStore } from '../store/menuStore';
@@ -13,6 +13,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Razorpay: any;
   }
 }
@@ -113,6 +114,7 @@ function Payment() {
           name,
           contact: phone 
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async function (response: any) {
           try {
             // Verify payment signature
